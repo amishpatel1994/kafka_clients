@@ -3,16 +3,27 @@ defmodule ExperimentKafkaEx do
   Documentation for `ExperimentKafkaEx`.
   """
 
-  @doc """
-  Hello world.
+  alias KafkaEx.Protocol.Produce.{Message, Request}
 
-  ## Examples
+  require Logger
 
-      iex> ExperimentKafkaEx.hello()
-      :world
+  def publish(topic, key, value) do
+    message = %Message{
+      key: key,
+      value: value
+    }
 
-  """
-  def hello do
-    :world
+    request = %Request{
+      topic: topic,
+      partition: 0,
+      required_acks: 1,
+      messages: [message]
+    }
+
+    Logger.info("KafkaEx.produce(#{inspect(request)})")
+
+    result = KafkaEx.produce(request)
+
+    Logger.info("KafkaEx.produce result=#{inspect(result)}")
   end
 end
