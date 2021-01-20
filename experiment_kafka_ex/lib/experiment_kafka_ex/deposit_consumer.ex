@@ -1,4 +1,4 @@
-defmodule ExperimentKafkaEx.GenConsumer do
+defmodule ExperimentKafkaEx.DepositConsumer do
   use KafkaEx.GenConsumer
 
   alias KafkaEx.Protocol.Fetch.Message
@@ -13,7 +13,7 @@ defmodule ExperimentKafkaEx.GenConsumer do
   # note - messages are delivered in batches
   def handle_message_set(message_set, state) do
     for %Message{value: message} <- message_set do
-      Logger.info("[state: #{inspect(state)}] message: " <> inspect(message))
+      Logger.info("#{__MODULE__} [state: #{inspect(state)}] message: " <> inspect(message))
     end
     {:async_commit, state}
   end

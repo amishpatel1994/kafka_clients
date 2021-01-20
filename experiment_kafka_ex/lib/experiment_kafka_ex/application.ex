@@ -2,7 +2,7 @@ defmodule ExperimentKafkaEx.Application do
   @moduledoc false
 
   use Application
-  alias ExperimentKafkaEx.GenConsumer
+  alias ExperimentKafkaEx.DepositConsumer
   import Supervisor.Spec
 
   def start(_type, _args) do
@@ -19,13 +19,13 @@ defmodule ExperimentKafkaEx.Application do
     children = [
       supervisor(
         KafkaEx.ConsumerGroup,
-        [GenConsumer, consumer_group_name, topic_names, consumer_group_opts]
+        [DepositConsumer, consumer_group_name, topic_names, consumer_group_opts]
       )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Hello.Supervisor]
+    opts = [strategy: :one_for_one, name: ExperimentKafkaEx.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end
