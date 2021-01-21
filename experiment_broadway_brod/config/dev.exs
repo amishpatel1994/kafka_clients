@@ -1,5 +1,10 @@
 import Config
 
+config :kafka,
+  hosts: [
+    {"localhost", 9092}
+  ]
+
 config :brod,
   clients: [
     kafka_client: [

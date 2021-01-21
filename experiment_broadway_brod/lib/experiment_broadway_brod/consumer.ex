@@ -1,15 +1,17 @@
 defmodule ExperimentBroadwayBrod.Consumer do
   use Broadway
 
-  def start(_opts, _) do
+  def start(_, _) do
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
       producer: [
-        module: {BroadwayKafka.Producer, [
-          hosts: [localhost: 9092],
-          group_id: "group_1",
-          topics: ["test"],
-        ]},
+        module:
+          {BroadwayKafka.Producer,
+           [
+             hosts: Application.get_env(:kafka, :hosts),
+             group_id: "group_1",
+             topics: ["test"]
+           ]},
         concurrency: 10
       ],
       processors: [
