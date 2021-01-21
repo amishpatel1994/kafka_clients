@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package amishpatel1994.protos.kafka_clients.user_events.v1;
+
+message UserRegistration {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+}

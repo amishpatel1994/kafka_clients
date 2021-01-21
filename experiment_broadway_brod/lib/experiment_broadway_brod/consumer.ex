@@ -1,6 +1,8 @@
 defmodule ExperimentBroadwayBrod.Consumer do
   use Broadway
 
+  alias Amishpatel1994.Protos.KafkaClients.UserEvents.V1.UserRegistration
+
   def start(_, _) do
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
@@ -10,7 +12,7 @@ defmodule ExperimentBroadwayBrod.Consumer do
            [
              hosts: Application.get_env(:kafka, :hosts),
              group_id: "group_1",
-             topics: ["test"]
+             topics: ["test", "user_events"]
            ]},
         concurrency: 10
       ],
@@ -23,7 +25,8 @@ defmodule ExperimentBroadwayBrod.Consumer do
   end
 
   def handle_message(_, message, _) do
-    IO.inspect(message, label: "#{__MODULE__}")
+    decoded_data = UserRegistration.decode(message.data)
+    IO.inspect(decoded_data, label: "#{__MODULE__}")
     message
   end
 end
